@@ -1,6 +1,6 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-    "contentVersion": "1.6.1.0",
+    "contentVersion": "1.7.0.0",
     "parameters": {
         "gwdnsLabelPrefix": {
             "type": "string",
@@ -917,47 +917,7 @@
                 "type": "DSC",
                 "typeHandlerVersion": "2.11"
             }
-        },
-        {
-            "name": "AutoDeskAutomationAccount",
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2015-01-01",
-            "dependsOn": [
-                "[resourceId('Microsoft.Compute/virtualMachines', 'cb-vm')]",
-                "Microsoft.Compute/virtualMachines/gw-vm/extensions/gateway",
-                "rdsh-vm-loop"
-            ],
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[variables('automationTemplateURL')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "automationAccountName": {
-                        "value": "[parameters('automationAccountName')]"
-                    },
-                    "scheduleid01": {
-                        "value": "[parameters('scheduleid01')]"
-                    },
-                    "scheduleid02": {
-                        "value": "[parameters('scheduleid02')]"
-                    },
-                    "scheduleStartDate": {
-                        "value": "[parameters('scheduleStartDate')]"
-                    },
-                    "region": {
-                        "value": "[parameters('automationAccountLocation')]"
-                    },
-                    "userName": {
-                        "value": "[parameters('automationAccountSpn')]"
-                    },
-                    "password": {
-                        "value": "[parameters('adminPassword')]"
-                    }
-                }
-            }
-        }
+        }     
     ],
     "outputs": {
         "Azure Marketplace Deployment Steps": {

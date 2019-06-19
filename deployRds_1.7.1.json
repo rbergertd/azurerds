@@ -458,6 +458,9 @@
                     "vmSize": {
                         "value": "[parameters('adVmSize')]"
                     },
+                    "imageSku": {
+                        "value": "[parameters('imageSKU')]"
+                    },
                     "adDNicName": {
                         "value": "[variables('adNICName')]"
                     },

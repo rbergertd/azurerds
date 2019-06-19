@@ -130,48 +130,6 @@
                 "Standard_D8s_v3"
             ]
         },
-        "automationAccountName": {
-            "type": "string",
-            "metadata": {
-                "description": "Name for the automation account. This is the resource that will control the power scheduling for the N-series virtual machines to keep your Azure spend down."
-            },
-            "defaultValue": "AutoDeskAutomationAccount"
-        },
-        "automationAccountSpn": {
-            "type": "string",
-            "metadata": {
-                "description": "Name for the automation credential. This is the credential that will be created as a service principal, to RUN the runbook within the automation account."
-            },
-            "defaultValue": "AutoDeskAutomationSPN"
-        },
-        "automationAccountLocation": {
-            "type": "string",
-            "metadata": {
-                "description": "Location for the automation account. Since this service is not available in all regions at this time, select a region in the dropdown."
-            },
-            "defaultValue": "EastUS2"
-        },
-        "scheduleid01": {
-            "type": "string",
-            "metadata": {
-                "description": "Location for the automation account. Since this service is not available in all regions at this time, select a region in the dropdown."
-            },
-            "defaultValue": "be55e7b7-ba86-48d6-9efd-49f3d310bcb9"
-        },
-        "scheduleid02": {
-            "type": "string",
-            "metadata": {
-                "description": "Location for the automation account. Since this service is not available in all regions at this time, select a region in the dropdown."
-            },
-            "defaultValue": "be55e7b7-ba86-48d6-9efd-49f3d310bcc5"
-        },
-        "scheduleStartDate": {
-            "type": "string",
-            "metadata": {
-                "description": "The start data (in format, yyyy/mm/dd) for the runbook that will control the start up, and shut down for the Remote Desktop Session Host N-series virtual machines. This will help keep your Azure spend down by powering them off after working hours."
-            },
-            "defaultValue": "2099/12/01"
-        },
         "location": {
             "type": "string",
             "defaultValue": "[resourceGroup().location]"
@@ -182,14 +140,14 @@
         "adSubnetName": "[concat('subnet-',resourceGroup().name)]",
         "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', variables('adVnetName'))]",
         "staticSubnetID": "[concat(variables('vnetID'),'/subnets/', variables('adSubnetName'))]",
-        "adTemplateURL": "https://raw.githubusercontent.com/rbergertd/RDS/master/adVmTemplate.json",
+        "adTemplateURL": "https://raw.githubusercontent.com/rbergertd/azurerds/master/adVmTemplate.json",
         "adVmDeployment": "CreateAdVms",
         "adVmDeploymentId": "[concat('Microsoft.Resources/deployments/', variables('adVmDeployment'))]",
-        "deployPrimaryAdTemplateURL": "https://raw.githubusercontent.com/rbergertd/RDS/master/deployPrimaryAD_withGPO.json",
+        "deployPrimaryAdTemplateURL": "https://raw.githubusercontent.com/rbergertd/azurerds/master/deployPrimaryAD_withGPO.json",
         "deployPrimaryAd": "DeployPrimaryAd",
         "deployPrimaryAdID": "[concat('Microsoft.Resources/deployments/', variables('deployPrimaryAd'))]",
         "adPDCVMName": "ad-vm",
-        "vnetwithDNSTemplateURL": "https://raw.githubusercontent.com/rbergertd/RDS/master/vnet-with-dns-server.json",
+        "vnetwithDNSTemplateURL": "https://raw.githubusercontent.com/rbergertd/azurerds/master/vnet-with-dns-server.json",
         "updateVNetDNS1": "updateVNetDNS",
         "publicLBName": "[concat('ADPLB',resourceGroup().name)]",
         "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
@@ -219,8 +177,7 @@
         "dnsServerPrivateIp": "10.0.0.4",
         "sessionHostExt": "sessionhost",
         "subnet-id": "[concat(resourceId('Microsoft.Network/virtualNetworks', variables('adVnetName')),'/subnets/', variables('adSubnetName'))]",
-        "assetLocation": "https://raw.githubusercontent.com/rbergertd/RDS/master",
-        "automationTemplateURL": "https://raw.githubusercontent.com/rbergertd/RDS/master/deployAutomationAccount.json",
+        "assetLocation": "https://raw.githubusercontent.com/rbergertd/azurerds/master",
         "subnets": [
             {
                 "name": "[variables('adSubnetName')]",

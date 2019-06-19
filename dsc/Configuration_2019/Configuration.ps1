@@ -186,6 +186,12 @@ configuration RDSDeployment
             adminCreds = $adminCreds 
         }
 
+        WindowsFeature RSAT-RDS-Tools
+        {
+            Ensure = "Present"
+            Name = "RSAT-RDS-Tools"
+            IncludeAllSubFeature = $false
+        }
 
         Registry RdmsEnableUILog
         {

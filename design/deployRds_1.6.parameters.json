@@ -1,0 +1,69 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "gwdnsLabelPrefix": {
+            "value": "## TO BE DEFINED ##"
+        },
+        "gwpublicIPAddressName": {
+            "value": "gw-pip"
+        },
+        "adDomainName": {
+            "value": "contoso.com"
+        },
+        "adminUsername": {
+            "value": "vmadmin"
+        },
+        "adminPassword": {
+            "value": "## TO BE DEFINED ##"
+        },
+        "imageSKU": {
+            "value": "2016-Datacenter"
+        },
+        "numberOfRdshInstances": {
+            "value": 1
+        },
+        "useExistingCustomImage": {
+            "value": "No"
+        },
+        "existingCustomImageNameRDSH": {
+            "value": "## TO BE DEFINED ##"
+        },
+        "existingCustomImageResourceGroup": {
+            "value": "useExistingCustomImage"
+        },
+        "rdshVmSize": {
+            "value": "Standard_NV6"
+        },
+        "rdshDataDisk": {
+            "value": "128"
+        },
+        "rdInfraVmSize": {
+            "value": "Standard_B2ms"
+        },
+        "adVmSize": {
+            "value": "Standard_B2ms"
+        },
+        "automationAccountName": {
+            "value": "AutoDeskAutomationAccount"
+        },
+        "automationAccountSpn": {
+            "value": "AutoDeskAutomationSPN"
+        },
+        "automationAccountLocation": {
+            "value": "EastUS2"
+        },
+        "scheduleid01": {
+            "value": "be55e7b7-ba86-48d6-9efd-49f3d310bcb9"
+        },
+        "scheduleid02": {
+            "value": "be55e7b7-ba86-48d6-9efd-49f3d310bcc5"
+        },
+        "scheduleStartDate": {
+            "value": "2099/12/01"
+        },
+        "location": {
+            "value": "[resourceGroup().location]"
+        }
+    }
+}

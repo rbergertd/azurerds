@@ -1,0 +1,92 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "primaryADName": {
+            "type": "string",
+            "metadata": {
+                "description": "The VM name of Primary AD"
+            }
+        },
+        "domainName": {
+            "type": "string",
+            "metadata": {
+                "description": "The domain name"
+            }
+        },
+        "adminUsername": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the Administrator of the new VMs and Domain"
+            }
+        },
+        "adminPassword": {
+            "type": "securestring",
+            "metadata": {
+                "description": "The password for the Administrator account of the new VMs and Domain"
+            }
+        },
+        "location": {
+            "type": "string",
+            "metadata": {
+                "description": "The Azure datacenter location for the resources to be deployed"
+            }
+        }
+    },
+    "variables": {
+        "adPDCConfigurationFunction": "CreateADPDC.ps1\\CreateADPDC",
+        "adPDCVMName": "ad-vm",
+        "dscExtensionName": "InstallDomainController"
+    },
+    "resources": [
+        {
+            "name": "[concat(parameters('primaryADName'),'/InstallDomainController')]",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "location": "[parameters('location')]",
+            "apiVersion": "2017-03-30",
+            "properties": {
+                "publisher": "Microsoft.Powershell",
+                "type": "DSC",
+                "typeHandlerVersion": "2.19",
+                "autoUpgradeMinorVersion": "true",
+                "settings": {
+                    "modulesUrl": "https://raw.githubusercontent.com/rbergertd/RDS/master/CreateADPDC.zip",
+                    "configurationFunction": "[variables('adPDCConfigurationFunction')]",
+                    "properties": {
+                        "domainName": "[parameters('domainName')]",
+                        "adminCreds": {
+                            "userName": "[parameters('adminUserName')]",
+                            "password": "PrivateSettingsRef:adminPassword"
+                        }
+                    }
+                },
+                "protectedSettings": {
+                    "items": {
+                        "adminPassword": "[parameters('adminPassword')]"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2018-06-01",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat(parameters('primaryADName'),'/SetUpGPO')]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('adPDCVMName'), variables('dscExtensionName'))]"
+            ],
+            "properties": {
+                "publisher": "Microsoft.Compute",
+                "type": "CustomScriptExtension",
+                "typeHandlerVersion": "1.9",
+                "settings": {
+                    "fileUris": [
+                        "https://raw.githubusercontent.com/rbergertd/RDS/master/importing-gpo.ps1"
+                    ],
+                    "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file importing-gpo.ps1')]"
+                }
+            }
+        }
+    ],
+    "outputs": { }
+}

@@ -18,9 +18,9 @@
         "adDomainName": {
             "type": "string",
             "metadata": {
-                "description": "The name of the AD domain that will be created and used for the rest of the deployment. For example, techdata.com"
+                "description": "The name of the AD domain that will be created and used for the rest of the deployment. For example, mydomain.local"
             },
-            "defaultValue": "techdata.com"
+            "defaultValue": "mydomain.local"
         },
         "adminUsername": {
             "type": "string",

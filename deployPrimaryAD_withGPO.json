@@ -50,7 +50,7 @@
                 "typeHandlerVersion": "2.19",
                 "autoUpgradeMinorVersion": "true",
                 "settings": {
-                    "modulesUrl": "https://raw.githubusercontent.com/rbergertd/RDS/master/CreateADPDC.zip",
+                    "modulesUrl": "https://raw.githubusercontent.com/rbergertd/azurerds/master/CreateADPDC.zip",
                     "configurationFunction": "[variables('adPDCConfigurationFunction')]",
                     "properties": {
                         "domainName": "[parameters('domainName')]",
@@ -81,7 +81,7 @@
                 "typeHandlerVersion": "1.9",
                 "settings": {
                     "fileUris": [
-                        "https://raw.githubusercontent.com/rbergertd/RDS/master/importing-gpo.ps1"
+                        "https://raw.githubusercontent.com/rbergertd/azurerds/master/importing-gpo.ps1"
                     ],
                     "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file importing-gpo.ps1')]"
                 }

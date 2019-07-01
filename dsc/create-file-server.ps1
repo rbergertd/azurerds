@@ -4,6 +4,12 @@ Configuration FileServer
 	
 	Node localhost
 	{
+        WindowsFeature 'FileServices'
+
+           {
+                Ensure = 'Present'
+                Name = 'File-Services'
+           }
         
         xWaitforDisk Disk2
         {

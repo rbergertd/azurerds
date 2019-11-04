@@ -3,7 +3,7 @@ configuration DomainJoin
    param 
     ( 
         [Parameter(Mandatory)]
-        [String]$domainToJoin,
+        [String]$domainName,
 
         [Parameter(Mandatory)]
         [PSCredential]$adminCreds
@@ -11,7 +11,7 @@ configuration DomainJoin
     
     Import-DscResource -ModuleName xActiveDirectory, xComputerManagement
 
-    $domainCreds = New-Object System.Management.Automation.PSCredential ("$domainToJoin\$($adminCreds.UserName)", $adminCreds.Password)
+    $domainCreds = New-Object System.Management.Automation.PSCredential ("$domainName\$($adminCreds.UserName)", $adminCreds.Password)
    
     Node localhost
     {
@@ -29,7 +29,7 @@ configuration DomainJoin
         xComputer DomainJoin
         {
             Name = $env:COMPUTERNAME
-            DomainName = $domainToJoin
+            DomainName = $domainName
             Credential = $domainCreds
             DependsOn = "[WindowsFeature]ADPowershell" 
         }
@@ -43,7 +43,7 @@ configuration Gateway
    param 
     ( 
         [Parameter(Mandatory)]
-        [String]$domainToJoin,
+        [String]$domainName,
 
         [Parameter(Mandatory)]
         [PSCredential]$adminCreds
@@ -60,7 +60,7 @@ configuration Gateway
 
         DomainJoin DomainJoin
         {
-            domainName = $domainToJoin
+            domainName = $domainName
             adminCreds = $adminCreds 
         }
 
@@ -85,7 +85,7 @@ configuration SessionHost
    param 
     ( 
         [Parameter(Mandatory)]
-        [String]$domainToJoin,
+        [String]$domainName,
 
         [Parameter(Mandatory)]
         [PSCredential]$adminCreds
@@ -102,7 +102,7 @@ configuration SessionHost
 
         DomainJoin DomainJoin
         {
-            domainName = $domainToJoin
+            domainName = $domainName
             adminCreds = $adminCreds 
         }
 
@@ -122,7 +122,7 @@ configuration RDSDeployment
    param 
     ( 
         [Parameter(Mandatory)]
-        [String]$domainToJoin,
+        [String]$domainName,
 
         [Parameter(Mandatory)]
         [PSCredential]$adminCreds,
@@ -154,14 +154,14 @@ configuration RDSDeployment
     $localhost = [System.Net.Dns]::GetHostByName((hostname)).HostName
 
     $username = $adminCreds.UserName -split '\\' | select -last 1
-    $domainCreds = New-Object System.Management.Automation.PSCredential ("$domainToJoin\$username", $adminCreds.Password)
+    $domainCreds = New-Object System.Management.Automation.PSCredential ("$domainName\$username", $adminCreds.Password)
 
     if (-not $connectionBroker)   { $connectionBroker = $localhost }
     if (-not $webAccessServer)    { $webAccessServer  = $localhost }
 
     if ($sessionHostNamingPrefix)
     { 
-        $sessionHosts = @( 0..($numberOfRdshInstances-1) | % { "$sessionHostNamingPrefix$_.$domainToJoin"} )
+        $sessionHosts = @( 0..($numberOfRdshInstances-1) | % { "$sessionHostNamingPrefix$_.$domainName"} )
     }
     else
     {
@@ -182,7 +182,7 @@ configuration RDSDeployment
 
         DomainJoin DomainJoin
         {
-            domainName = $domainToJoin 
+            domainName = $domainName 
             adminCreds = $adminCreds 
         }
 

@@ -1,4 +1,4 @@
-﻿#Building a new GPO, importing an existing configuration, and then linking it to the WVD Session Hosts OU.
+﻿#Building a new GPO, importing an existing configuration, and then linking it to the RDS Session Hosts OU.
 $LDAPRoot = [ADSI]"LDAP://RootDSE"
 $GPLinkTargetDomain = $LDAPRoot.Get("rootDomainNamingContext")
 $URI = "http://github.com/rbergertd/azurerds/raw/master/grouppolicy/GPOBackup.zip"
